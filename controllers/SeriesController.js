@@ -39,7 +39,7 @@ const getAllSeries = async (req, res) => {
         ]);
         //db.events.find({"details.detail_list.count": {"$gt": 0}})
 
-        res.json({ series: series, countryCode: data });
+        res.json({ pid: process.pid, series: series, countryCode: data });
     } catch (err) {
         res.json({ message: err });
     }
