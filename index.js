@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
-const redisConnection = require('./redis-server')
+// const redisConnection = require('./redis-server')
 const bodyParser = require('body-parser');
 
 
@@ -22,31 +22,31 @@ mongoose.connect(process.env.DB_CONNECT)
 
 
 
-app.get('/api/cache/:id', async (req, res) => {
+// app.get('/api/cache/:id', async (req, res) => {
 
-    const { id } = req.params;
-    // Check Redis cache first
-    const cachedData = await redisClient.get(id);
-    if (cachedData) {
-        return res.send(JSON.parse(cachedData));
-    }
+//     const { id } = req.params;
+//     // Check Redis cache first
+//     const cachedData = await redisClient.get(id);
+//     if (cachedData) {
+//         return res.send(JSON.parse(cachedData));
+//     }
 
-    // If not in cache, fetch from MongoDB
-    const data = {
-        user: id,
-        cache: true
-    };
-    if (data) {
-        // Store the result in Redis (with an expiration time)
-        redisClient.setEx(id, 3600, JSON.stringify(data));
-        return res.send(data);
-    }
+//     // If not in cache, fetch from MongoDB
+//     const data = {
+//         user: id,
+//         cache: true
+//     };
+//     if (data) {
+//         // Store the result in Redis (with an expiration time)
+//         redisClient.setEx(id, 3600, JSON.stringify(data));
+//         return res.send(data);
+//     }
 
-    res.status(404).send('Data not found');
+//     res.status(404).send('Data not found');
 
 
 
-});
+// });
 
 app.post('/api/pay/callback', async (req, res) => {
 

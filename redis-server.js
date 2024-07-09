@@ -2,13 +2,12 @@ const redis = require('redis')
 
 
 const redisClient = redis.createClient({
-    url: 'redis://default:bpHNkiZdLrwAXfFOn2Bamy4Du56rMFcW@redis-16007.c98.us-east-1-4.ec2.redns.redis-cloud.com:16007',
+    url: 'redis://default:es6EOuZvnb+8QSQSpuNSjzQx0hSsdxHsYzdNRkLf9qMA0v8F56kQf0kupgQca3AdOUIDvPzBxtDKYAyM@50.7.28.250:6379',
     legacyMode: false
 });
 redisClient.on('error', (err) => {
     console.error('Redis Client Error', err);
 });
-
 
 (async () => {
     try {

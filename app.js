@@ -8,7 +8,6 @@ const bodyParser = require('body-parser');
 const cluster = require('cluster');
 
 
-
 //Middleware
 app.use(express.json());
 app.use(cors());
@@ -63,32 +62,6 @@ if (cluster.isMaster) {
                 status: err
             });
         }
-
-
-    });
-
-    app.get('/api/cache/:id', async (req, res) => {
-
-        const { id } = req.params;
-        // Check Redis cache first
-        const cachedData = await redisClient.get(id);
-        if (cachedData) {
-            return res.send(JSON.parse(cachedData));
-        }
-
-        // If not in cache, fetch from MongoDB
-        const data = {
-            user: id,
-            cache: true
-        };
-        if (data) {
-            // Store the result in Redis (with an expiration time)
-            redisClient.setEx(id, 3600, JSON.stringify(data));
-            return res.send(data);
-        }
-
-        res.status(404).send('Data not found');
-
 
 
     });
@@ -166,7 +139,6 @@ if (cluster.isMaster) {
     const sliders = require('./routes/Slider');
     const HomeV2Routes = require('./routes/HomeV2');
     const { options } = require('apicache');
-    const redisClient = require('./redis-server');
 
 
 

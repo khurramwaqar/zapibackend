@@ -1,6 +1,8 @@
 const Home = require('../models/Home');
 const axios = require('axios');
 const redisClient = require('../redis-server');
+
+
 //Get all genres
 
 const getAllHome = async (req, res) => {
@@ -30,133 +32,149 @@ const getAllHomeV2 = async (req, res) => {
 
 const getSpecificHome = async (req, res) => {
     let newData = [];
+
+
+    const cacheId = req.params.homeId;
+    let results;
+    let isCached = false;
+
     try {
+        const cacheResults = await redisClient.get(cacheId);
+        if (cacheResults) {
+            isCached = true;
+            results = JSON.parse(cacheResults);
+            results.home["isCached"] = true
 
-        if (req.params.cn) {
-            const home = await Home.findById(req.params.homeId);
-            //const size = home.homeData.count();
-            const size = home.homeData.length
-            //create a loop of home.homeData then fetch each data
-            for (let i = 0; i < size; i++) {
-
-                const objectIds = home.homeData[i].data
-
-                if (home.homeData[i].type == "ImageSlider") {
-                    const resp = await axios.get(`https://zapi.aryzap.com/api/slider/${home.homeData[i].data}`);
-                    const datas = resp.data;
-                    newData.push({
-                        id: 1,
-                        name: 'Slider',
-                        type: 'ImageSlider',
-                        items: datas.slider.sliderData.length,
-                        data: datas,
-                        chosen: false,
-                        selected: false
-                    })
-                }
-                if (home.homeData[i].type == "SingleSeries") {
-                    const resp = await axios.get(`https://zapi.aryzap.com/api/yt/${home.homeData[i].data}`);
-                    const datas = resp.data;
-                    newData.push({
-                        id: 1,
-                        name: 'Single Series',
-                        type: 'SingleSeries',
-                        items: datas.episode.length,
-                        data: datas,
-                        chosen: false,
-                        selected: false
-                    })
-                }
-                if (home.homeData[i].type == "Category") {
-                    const resp = await axios.get(`https://zapi.aryzap.com/api/series/byCatID/${home.homeData[i].data}/${req.params.cn}`);
-                    const datas = resp.data;
-                    newData.push({
-                        id: 1,
-                        name: home.homeData[i].name,
-                        type: 'Category',
-                        items: datas.series.length,
-                        data: datas,
-                        chosen: false,
-                        selected: false
-                    })
-                }
-            }
-            const finalData = {
-                home: {
-                    _id: home._id,
-                    homeTitle: home.homeTitle,
-                    homeAppId: home.homeAppId,
-                    homeData: newData
-                }
-            };
-
-
-            res.json(finalData);
+            res.json(results);
         } else {
 
-            const home = await Home.findById(req.params.homeId);
-            //const size = home.homeData.count();
-            const size = home.homeData.length
-            //create a loop of home.homeData then fetch each data
-            for (let i = 0; i < size; i++) {
+            if (req.params.cn) {
+                const home = await Home.findById(req.params.homeId);
+                //const size = home.homeData.count();
+                const size = home.homeData.length
+                //create a loop of home.homeData then fetch each data
+                for (let i = 0; i < size; i++) {
 
-                const objectIds = home.homeData[i].data
+                    const objectIds = home.homeData[i].data
 
-                if (home.homeData[i].type == "ImageSlider") {
-                    const resp = await axios.get(`https://zapi.aryzap.com/api/slider/${home.homeData[i].data}`);
-                    const datas = resp.data;
-                    newData.push({
-                        id: 1,
-                        name: 'Slider',
-                        type: 'ImageSlider',
-                        items: datas.slider.sliderData.length,
-                        data: datas,
-                        chosen: false,
-                        selected: false
-                    })
+                    if (home.homeData[i].type == "ImageSlider") {
+                        const resp = await axios.get(`https://zapi.aryzap.com/api/slider/${home.homeData[i].data}`);
+                        const datas = resp.data;
+                        newData.push({
+                            id: 1,
+                            name: 'Slider',
+                            type: 'ImageSlider',
+                            items: datas.slider.sliderData.length,
+                            data: datas,
+                            chosen: false,
+                            selected: false
+                        })
+                    }
+                    if (home.homeData[i].type == "SingleSeries") {
+                        const resp = await axios.get(`https://zapi.aryzap.com/api/yt/${home.homeData[i].data}`);
+                        const datas = resp.data;
+                        newData.push({
+                            id: 1,
+                            name: 'Single Series',
+                            type: 'SingleSeries',
+                            items: datas.episode.length,
+                            data: datas,
+                            chosen: false,
+                            selected: false
+                        })
+                    }
+                    if (home.homeData[i].type == "Category") {
+                        const resp = await axios.get(`https://zapi.aryzap.com/api/series/byCatID/${home.homeData[i].data}/${req.params.cn}`);
+                        const datas = resp.data;
+                        newData.push({
+                            id: 1,
+                            name: home.homeData[i].name,
+                            type: 'Category',
+                            items: datas.series.length,
+                            data: datas,
+                            chosen: false,
+                            selected: false
+                        })
+                    }
                 }
-                if (home.homeData[i].type == "SingleSeries") {
-                    const resp = await axios.get(`https://zapi.aryzap.com/api/yt/${home.homeData[i].data}`);
-                    const datas = resp.data;
-                    newData.push({
-                        id: 1,
-                        name: 'Single Series',
-                        type: 'SingleSeries',
-                        items: datas.episode.length,
-                        data: datas,
-                        chosen: false,
-                        selected: false
-                    })
+                const finalData = {
+                    home: {
+                        _id: home._id,
+                        homeTitle: home.homeTitle,
+                        homeAppId: home.homeAppId,
+                        homeData: newData,
+                        isCached: isCached
+                    }
+                };
+
+                await redisClient.set(cacheId, JSON.stringify(finalData));
+                res.json(finalData);
+            } else {
+
+                const home = await Home.findById(req.params.homeId);
+                //const size = home.homeData.count();
+                const size = home.homeData.length
+                //create a loop of home.homeData then fetch each data
+                for (let i = 0; i < size; i++) {
+
+                    const objectIds = home.homeData[i].data
+
+                    if (home.homeData[i].type == "ImageSlider") {
+                        const resp = await axios.get(`https://zapi.aryzap.com/api/slider/${home.homeData[i].data}`);
+                        const datas = resp.data;
+                        newData.push({
+                            id: 1,
+                            name: 'Slider',
+                            type: 'ImageSlider',
+                            items: datas.slider.sliderData.length,
+                            data: datas,
+                            chosen: false,
+                            selected: false
+                        })
+                    }
+                    if (home.homeData[i].type == "SingleSeries") {
+                        const resp = await axios.get(`https://zapi.aryzap.com/api/yt/${home.homeData[i].data}`);
+                        const datas = resp.data;
+                        newData.push({
+                            id: 1,
+                            name: 'Single Series',
+                            type: 'SingleSeries',
+                            items: datas.episode.length,
+                            data: datas,
+                            chosen: false,
+                            selected: false
+                        })
+                    }
+                    if (home.homeData[i].type == "Category") {
+                        const resp = await axios.get(`https://zapi.aryzap.com/api/series/byCatID/${home.homeData[i].data}/PK`);
+                        const datas = resp.data;
+                        newData.push({
+                            id: 1,
+                            name: home.homeData[i].name,
+                            type: 'Category',
+                            items: datas.series.length,
+                            data: datas,
+                            chosen: false,
+                            selected: false
+                        })
+                    }
                 }
-                if (home.homeData[i].type == "Category") {
-                    const resp = await axios.get(`https://zapi.aryzap.com/api/series/byCatID/${home.homeData[i].data}/PK`);
-                    const datas = resp.data;
-                    newData.push({
-                        id: 1,
-                        name: home.homeData[i].name,
-                        type: 'Category',
-                        items: datas.series.length,
-                        data: datas,
-                        chosen: false,
-                        selected: false
-                    })
-                }
+                const finalData = {
+                    home: {
+                        _id: home._id,
+                        homeTitle: home.homeTitle,
+                        homeAppId: home.homeAppId,
+                        homeData: newData,
+                        isCached: isCached
+                    }
+                };
+
+                await redisClient.set(cacheId, JSON.stringify(finalData));
+                res.json(finalData);
+
             }
-            const finalData = {
-                home: {
-                    _id: home._id,
-                    homeTitle: home.homeTitle,
-                    homeAppId: home.homeAppId,
-                    homeData: newData
-                }
-            };
-
-
-            res.json(finalData);
 
         }
-
-
 
 
     } catch (err) {
