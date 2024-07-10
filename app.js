@@ -81,8 +81,6 @@ if (cluster.isMaster) {
             });
         }
 
-
-
     });
 
     app.get('/api/v1/dashboard', async (req, res) => {
