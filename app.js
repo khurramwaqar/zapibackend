@@ -8,9 +8,6 @@ const bodyParser = require('body-parser');
 const cluster = require('cluster');
 
 
-// Serve static files from the 'public' folder
-app.use(express.static('public'));
-
 //Middleware
 app.use(express.json());
 app.use(cors());
@@ -187,6 +184,9 @@ if (cluster.isMaster) {
     app.use('/api/emedia', episodeLogoRoute);
     app.use('/api/emedia', episodeLogoRoute);
 
+
+    // Serve static files from the 'public' folder
+    app.use(express.static(__dirname + '/public'));
 
 
     // Enable file uploads
