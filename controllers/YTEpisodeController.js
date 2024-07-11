@@ -3,7 +3,7 @@ const YTEpisodeSchema = require('../models/YTEpisode');
 const axios = require('axios');
 
 function getPosts() {
-    const response = fetch('https://zapi.aryzap.com/api/series');
+    const response = fetch('https://node.aryzap.com/api/series');
     return response.json();
 }
 
@@ -74,7 +74,7 @@ const getSpecificYTEpisode = async (req, res) => {
 
     try {
         const episode = await YTEpisodeSchema.findOne(req.params.episodeId);
-        res.json({episode : episode});
+        res.json({ episode: episode });
     } catch (err) {
         res.json({ message: err });
     }

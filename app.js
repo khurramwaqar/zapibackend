@@ -143,10 +143,6 @@ if (cluster.isMaster) {
     const { options } = require('apicache');
 
 
-
-
-
-
     //Route Middlewares
     app.use('/api/vod', VodContent);
     app.use('/api/apps', appsRoute);
@@ -186,13 +182,11 @@ if (cluster.isMaster) {
 
 
     // Serve static files from the 'public' folder
-    app.use(express.static(__dirname + '/public'));
+    app.use('/public', express.static('public'))
 
 
     // Enable file uploads
     app.use(fileUpload());
-
-
 
 
     app.listen(port, () => {

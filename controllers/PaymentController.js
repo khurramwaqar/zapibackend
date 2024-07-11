@@ -3,7 +3,7 @@ const YTEpisodeSchema = require('../models/YTEpisode');
 const axios = require('axios');
 
 function getPosts() {
-    const response = fetch('https://zapi.aryzap.com/api/series');
+    const response = fetch('https://node.aryzap.com/api/series');
     return response.json();
 }
 
@@ -28,53 +28,53 @@ const postReg = async (req, res) => {
 
     const newData = [];
     const episodeData = [];
-	const body = {
-		Registration: {
-			 Currency: req.body.currency,
-			 ReturnPath: "https://zapi.aryzap.com/api/pay/callback",
-			 TransactionHint: "CPT:Y;VCC:Y;",
-			 OrderID: req.body.orderId,
-			 Store: "0000",
-			 Terminal: "0000",
-			 Channel: "Web",
-			 Amount: req.body.packageAmount,
-			 Customer: req.body.customerName,
-			 OrderName: req.body.packageName,
-			 UserName:"Demo_fY9c",
-			 Password:"Comtrust@20182018"
-		 }
-	};
+    const body = {
+        Registration: {
+            Currency: req.body.currency,
+            ReturnPath: "https://node.aryzap.com/api/pay/callback",
+            TransactionHint: "CPT:Y;VCC:Y;",
+            OrderID: req.body.orderId,
+            Store: "0000",
+            Terminal: "0000",
+            Channel: "Web",
+            Amount: req.body.packageAmount,
+            Customer: req.body.customerName,
+            OrderName: req.body.packageName,
+            UserName: "Demo_fY9c",
+            Password: "Comtrust@20182018"
+        }
+    };
     try {
-		
+
         const resp = await axios.post(`https://demo-ipg.ctdev.comtrust.ae:2443`, body, {
-			headers: {
-				'content-type': 'application/json',
-				'Accept' : 'application/json'
-			}
-		});
+            headers: {
+                'content-type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
         //const data = resp.data.items;
 
         // TODO: Create a For loop that will check if item etag is already exists or not if its not exists then it will create a new item
 
         //for (const item of data) {
 
-            //const existingItem = await YTEpisodeSchema.findOne({ id: item.id });
+        //const existingItem = await YTEpisodeSchema.findOne({ id: item.id });
 
-           // if (!existingItem) {
-          //      const seriesId = { seriesId: req.params.seriesId, videoSource: null }
-                //Insert a new Item
-            //    const newItem = await YTEpisodeSchema.create({ ...seriesId, ...item });
-              //  console.log(`Inserted item with _id ${newItem._id}`);
-            //} else {
-             //   console.log(`Item with _id ${item.etag} already exists in the database.`);
-           // }
+        // if (!existingItem) {
+        //      const seriesId = { seriesId: req.params.seriesId, videoSource: null }
+        //Insert a new Item
+        //    const newItem = await YTEpisodeSchema.create({ ...seriesId, ...item });
+        //  console.log(`Inserted item with _id ${newItem._id}`);
+        //} else {
+        //   console.log(`Item with _id ${item.etag} already exists in the database.`);
+        // }
 
-            //newData.push(item);
+        //newData.push(item);
         //}
 
         res.json({
-			data: resp.data
-		});
+            data: resp.data
+        });
 
     } catch (e) {
         res.json({ errorPing: e.message });
@@ -97,7 +97,7 @@ const getSpecificYTEpisode = async (req, res) => {
 
     try {
         const episode = await YTEpisodeSchema.findOne(req.params.episodeId);
-        res.json({episode : episode});
+        res.json({ episode: episode });
     } catch (err) {
         res.json({ message: err });
     }

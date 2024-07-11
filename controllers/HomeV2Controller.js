@@ -58,7 +58,7 @@ const getSpecificHome = async (req, res) => {
                     const objectIds = home.homeData[i].data
 
                     if (home.homeData[i].type == "ImageSlider") {
-                        const resp = await axios.get(`https://zapi.aryzap.com/api/slider/${home.homeData[i].data}`);
+                        const resp = await axios.get(`https://node.aryzap.com/api/slider/${home.homeData[i].data}`);
                         const datas = resp.data;
                         newData.push({
                             id: 1,
@@ -71,7 +71,7 @@ const getSpecificHome = async (req, res) => {
                         })
                     }
                     if (home.homeData[i].type == "SingleSeries") {
-                        const resp = await axios.get(`https://zapi.aryzap.com/api/yt/${home.homeData[i].data}`);
+                        const resp = await axios.get(`https://node.aryzap.com/api/yt/${home.homeData[i].data}`);
                         const datas = resp.data;
                         newData.push({
                             id: 1,
@@ -84,7 +84,7 @@ const getSpecificHome = async (req, res) => {
                         })
                     }
                     if (home.homeData[i].type == "Category") {
-                        const resp = await axios.get(`https://zapi.aryzap.com/api/series/byCatID/${home.homeData[i].data}/${req.params.cn}`);
+                        const resp = await axios.get(`https://node.aryzap.com/api/series/byCatID/${home.homeData[i].data}/${req.params.cn}`);
                         const datas = resp.data;
                         newData.push({
                             id: 1,
@@ -120,7 +120,7 @@ const getSpecificHome = async (req, res) => {
                     const objectIds = home.homeData[i].data
 
                     if (home.homeData[i].type == "ImageSlider") {
-                        const resp = await axios.get(`https://zapi.aryzap.com/api/slider/${home.homeData[i].data}`);
+                        const resp = await axios.get(`https://node.aryzap.com/api/slider/${home.homeData[i].data}`);
                         const datas = resp.data;
                         newData.push({
                             id: 1,
@@ -133,7 +133,7 @@ const getSpecificHome = async (req, res) => {
                         })
                     }
                     if (home.homeData[i].type == "SingleSeries") {
-                        const resp = await axios.get(`https://zapi.aryzap.com/api/yt/${home.homeData[i].data}`);
+                        const resp = await axios.get(`https://node.aryzap.com/api/yt/${home.homeData[i].data}`);
                         const datas = resp.data;
                         newData.push({
                             id: 1,
@@ -146,7 +146,7 @@ const getSpecificHome = async (req, res) => {
                         })
                     }
                     if (home.homeData[i].type == "Category") {
-                        const resp = await axios.get(`https://zapi.aryzap.com/api/series/byCatID/${home.homeData[i].data}/PK`);
+                        const resp = await axios.get(`https://node.aryzap.com/api/series/byCatID/${home.homeData[i].data}/PK`);
                         const datas = resp.data;
                         newData.push({
                             id: 1,
