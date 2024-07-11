@@ -6,6 +6,7 @@ const cors = require('cors');
 const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
 const cluster = require('cluster');
+const redisClient = require('./redis-server');
 
 
 //Middleware
@@ -183,6 +184,20 @@ if (cluster.isMaster) {
 
     // Serve static files from the 'public' folder
     app.use('/public', express.static('public'))
+
+    // Clear Redis Cache
+
+    app.get('/flush-cache', async (req, res) => {
+
+        redisClient.flushall((err, reply) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send('Error flushing cache');
+            }
+            console.log(reply); // Logs 'OK' if successful
+            res.send('Cache flushed');
+        });
+    });
 
 
     // Enable file uploads
