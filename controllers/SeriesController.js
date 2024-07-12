@@ -33,7 +33,7 @@ const getAllSeries = async (req, res) => {
             },
             {
                 $sort: {
-                    position: -1
+                    position: 1
                 }
             }
         ]);
@@ -70,7 +70,7 @@ const getSeriesCountByCatId = async (req, res) => {
             },
             {
                 $sort: {
-                    position: -1
+                    position: 1
                 }
             }
         ]);
@@ -128,7 +128,7 @@ const getAllSeriesByCategoriesId = async (req, res) => {
                 },
                 {
                     $sort: {
-                        position: -1
+                        position: 1
                     }
                 }
             ]);

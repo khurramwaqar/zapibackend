@@ -67,7 +67,8 @@ const getSpecificHome = async (req, res) => {
                             items: datas.slider.sliderData.length,
                             data: datas,
                             chosen: false,
-                            selected: false
+                            selected: false,
+                            ui: home.homeData[i].ui ? home.homeData[i].ui : null
                         })
                     }
                     if (home.homeData[i].type == "SingleSeries") {
@@ -80,7 +81,8 @@ const getSpecificHome = async (req, res) => {
                             items: datas.episode.length,
                             data: datas,
                             chosen: false,
-                            selected: false
+                            selected: false,
+                            ui: home.homeData[i].ui ? home.homeData[i].ui : null
                         })
                     }
                     if (home.homeData[i].type == "Category") {
@@ -93,7 +95,8 @@ const getSpecificHome = async (req, res) => {
                             items: datas.series.length,
                             data: datas,
                             chosen: false,
-                            selected: false
+                            selected: false,
+                            ui: home.homeData[i].ui ? home.homeData[i].ui : null
                         })
                     }
                 }
@@ -129,7 +132,8 @@ const getSpecificHome = async (req, res) => {
                             items: datas.slider.sliderData.length,
                             data: datas,
                             chosen: false,
-                            selected: false
+                            selected: false,
+                            ui: home.homeData[i].ui ? home.homeData[i].ui : null
                         })
                     }
                     if (home.homeData[i].type == "SingleSeries") {
@@ -142,7 +146,8 @@ const getSpecificHome = async (req, res) => {
                             items: datas.episode.length,
                             data: datas,
                             chosen: false,
-                            selected: false
+                            selected: false,
+                            ui: home.homeData[i].ui ? home.homeData[i].ui : null
                         })
                     }
                     if (home.homeData[i].type == "Category") {
@@ -155,7 +160,8 @@ const getSpecificHome = async (req, res) => {
                             items: datas.series.length,
                             data: datas,
                             chosen: false,
-                            selected: false
+                            selected: false,
+                            ui: home.homeData[i].ui ? home.homeData[i].ui : null
                         })
                     }
                 }
