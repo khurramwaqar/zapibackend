@@ -76,7 +76,7 @@ const getSpecificHome = async (req, res) => {
                         const datas = resp.data;
                         newData.push({
                             id: 1,
-                            name: 'Single Series',
+                            name: home.homeData[i].name ? home.homeData[i].name : "Single Series /NA",
                             type: 'SingleSeries',
                             items: datas.episode.length,
                             data: datas,
