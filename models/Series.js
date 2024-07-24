@@ -13,7 +13,7 @@ const SeriesSchema = new mongoose.Schema({
     },
     cast: {
         type: Array,
-        required: true,
+        required: false,
         trim: true
     },
     seriesDM: {

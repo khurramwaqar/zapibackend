@@ -1,7 +1,24 @@
 const Genres = require('../models/Genres');
+const Series = require('../models/Series');
+
+// Get series by genre ID
+const getSeriesByGenreId = async (req, res) => {
+    try {
+        const genreId = req.params.genreId;
+        const series = await Series.find({ genreId: genreId });
+
+        if (!series) {
+            return res.status(404).json({ message: 'No series found for this genre ID' });
+        }
+
+        res.status(200).json({ series: series });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 
 //Get all genres
-
 const getAllGenres = async (req, res) => {
     try {
         const genre = await Genres.find();
@@ -81,4 +98,5 @@ module.exports = {
     createGenre,
     updateGenre,
     deleteGenre,
+    getSeriesByGenreId
 };

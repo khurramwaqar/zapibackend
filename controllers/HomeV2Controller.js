@@ -34,7 +34,7 @@ const getSpecificHome = async (req, res) => {
     let newData = [];
 
 
-    const cacheId = req.params.homeId;
+    const cacheId = req.params.homeId + '/' + req.params.cn;
     let results;
     let isCached = false;
 
