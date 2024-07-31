@@ -7,7 +7,10 @@ const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
 const cluster = require('cluster');
 const redisClient = require('./redis-server');
+const util = require('util');
 
+
+redisClient.info = util.promisify(redisClient.info);
 
 //Middleware
 app.use(express.json());
@@ -132,6 +135,8 @@ if (cluster.isMaster) {
     const episodeMobileRoute = require('./routes/EpisodeMediaMobile');
     const episodeDesktopRoute = require('./routes/EpisodeMediaDesktop');
 
+    const favoritesRoutes = require('./routes/Favorites');
+
     // Private Routes   --------------------------------
 
     const userSubscriberRoutes = require('./routes/UserSubscribers');
@@ -180,6 +185,8 @@ if (cluster.isMaster) {
     app.use('/api/emedia', episodePosterRoute);
     app.use('/api/emedia', episodeLogoRoute);
     app.use('/api/emedia', episodeLogoRoute);
+
+    app.use('/api/fav', favoritesRoutes);
 
 
     // Serve static files from the 'public' folder
