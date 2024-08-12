@@ -69,3 +69,25 @@ exports.deleteFavorite = async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 };
+
+exports.toggleFavorite = async (req, res) => {
+    try {
+        const { userId, seriesId } = req.body;
+
+        // Check if the favorite already exists
+        let favorite = await Favorite.findOne({ userId, seriesId });
+
+        if (favorite) {
+            // If it exists, delete it
+            await Favorite.findByIdAndDelete(favorite._id);
+            return res.status(200).json({ message: 'Favorite removed successfully' });
+        } else {
+            // If it does not exist, create it
+            favorite = new Favorite({ userId, seriesId });
+            await favorite.save();
+            return res.status(201).json({ message: 'Favorite added successfully', favorite });
+        }
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};

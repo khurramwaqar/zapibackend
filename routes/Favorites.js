@@ -3,8 +3,11 @@ const favoriteController = require('../controllers/FavoritesController'); // Adj
 
 const router = express.Router();
 
-// Create a new favorite
+// Create a new Favorite
 router.post('/', favoriteController.createFavorite);
+
+// Create or Delete a new or existing favorite series
+router.post('/cda', favoriteController.toggleFavorite);
 
 // Get all favorites for a user
 router.get('/user/:userId', favoriteController.getFavoritesByUser);

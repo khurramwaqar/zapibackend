@@ -40,6 +40,7 @@ if (cluster.isMaster) {
         console.log('Starting a new worker');
         cluster.fork();
     });
+
 } else {
     // Worker process (child)
     // ... (Your Express application code here)
@@ -207,8 +208,10 @@ if (cluster.isMaster) {
     app.use(fileUpload());
 
 
-    app.listen(port, () => {
+    const server = app.listen(port, () => {
         console.log(`Worker ${process.pid} listening on port ${port}`);
     });
+
+
 }
 
