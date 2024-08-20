@@ -99,6 +99,20 @@ const getSpecificHome = async (req, res) => {
                             ui: home.homeData[i].ui ? home.homeData[i].ui : null
                         })
                     }
+                    if (home.homeData[i].type == "PromotionalBanner") {
+                        const resp = await axios.get(`https://node.aryzap.com/api/pb/${home.homeData[i].data}`);
+                        const datas = resp.data;
+                        newData.push({
+                            id: 1,
+                            name: 'Promotional Banner',
+                            type: 'PromotionalBanner',
+                            items: datas.promotionalBanner.length,
+                            data: datas.promotionalBanner,
+                            chosen: false,
+                            selected: false,
+                            ui: home.homeData[i].ui ? home.homeData[i].ui : null
+                        })
+                    }
                 }
                 const finalData = {
                     home: {
@@ -159,6 +173,20 @@ const getSpecificHome = async (req, res) => {
                             type: 'Category',
                             items: datas.series.length,
                             data: datas,
+                            chosen: false,
+                            selected: false,
+                            ui: home.homeData[i].ui ? home.homeData[i].ui : null
+                        })
+                    }
+                    if (home.homeData[i].type == "PromotionalBanner") {
+                        const resp = await axios.get(`https://node.aryzap.com/api/pb/${home.homeData[i].data}`);
+                        const datas = resp.data;
+                        newData.push({
+                            id: 1,
+                            name: 'Promotional Banner',
+                            type: 'PromotionalBanner',
+                            items: datas.promotionalBanner.length,
+                            data: datas.promotionalBanner,
                             chosen: false,
                             selected: false,
                             ui: home.homeData[i].ui ? home.homeData[i].ui : null
