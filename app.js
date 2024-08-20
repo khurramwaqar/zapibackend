@@ -122,6 +122,7 @@ if (cluster.isMaster) {
     const mediaMobileRoute = require('./routes/MediaMobile');
     const mediaDesktopRoute = require('./routes/MediaDesktop');
     const mediaSliderRoute = require('./routes/MediaSlider');
+    const mediaPromotionalBanner = require('./routes/MediaPromotionalBanner');
     const mediaVODUpload = require('./routes/VODUpload');
     const geoPolicyRoute = require('./routes/GeoPolicy');
     const GetCountry = require('./routes/GetCountry');
@@ -147,6 +148,7 @@ if (cluster.isMaster) {
     const HomeRoutes = require('./routes/Home');
     const sliders = require('./routes/Slider');
     const HomeV2Routes = require('./routes/HomeV2');
+    const PromotionalBanner = require('./routes/PromotionalBanner');
     const { options } = require('apicache');
 
 
@@ -168,6 +170,7 @@ if (cluster.isMaster) {
     app.use('/api/media', mediaMobileRoute);
     app.use('/api/media', mediaDesktopRoute);
     app.use('/api/media', mediaSliderRoute);
+    app.use('/api/media', mediaPromotionalBanner);
     app.use('/api/media', mediaLogoRoute);
     app.use('/api/media', mediaVODUpload);
     app.use('/api/ads', AdsManagerRoutes);
@@ -177,6 +180,7 @@ if (cluster.isMaster) {
     app.use('/api/billings', billings);
     app.use('/api/subscriptions', subscription);
     app.use('/api/slider', sliders);
+    app.use('/api/pb/', PromotionalBanner);
 
     app.use('/api/home', HomeRoutes);
     app.use('/api/homev2', HomeV2Routes)
@@ -192,6 +196,8 @@ if (cluster.isMaster) {
 
     // Serve static files from the 'public' folder
     app.use('/public', express.static('public'))
+
+
 
     // Clear Redis Cache
 
