@@ -151,6 +151,9 @@ if (cluster.isMaster) {
     const PromotionalBanner = require('./routes/PromotionalBanner');
     const { options } = require('apicache');
 
+    const SearchApi = require('./routes/SearchApi');
+
+
 
     //Route Middlewares
     app.use('/api/vod', VodContent);
@@ -192,6 +195,7 @@ if (cluster.isMaster) {
     app.use('/api/emedia', episodeLogoRoute);
 
     app.use('/api/fav', favoritesRoutes);
+    app.use('/api/search', SearchApi);
 
 
     // Serve static files from the 'public' folder
