@@ -4,7 +4,7 @@ const Categories = require('../models/Categories');
 
 const getAllCategories = async (req, res) => {
     try {
-        const category = await Categories.find();
+        const category = await Categories.find({ published: true });
         res.json(category);
     } catch (err) {
         res.json({ message: err });
@@ -31,7 +31,8 @@ const createCategory = async (req, res) => {
         title: req.body.title,
         description: req.body.description,
         image: req.body.image,
-        appId: req.body.appId
+        appId: req.body.appId,
+        published: req.body.published
     });
 
     try {
@@ -56,6 +57,7 @@ const updateCategory = async (req, res) => {
                     description: req.body.description,
                     image: req.body.image,
                     appId: req.body.appId,
+                    published: req.body.published
                 },
             }
         );

@@ -8,6 +8,11 @@ const CategoriesSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'Series'
+    },
+    published: {
+        type: Boolean,
+        default: false,
+        required: false
     }
 });
 
