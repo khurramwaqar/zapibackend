@@ -6,5 +6,5 @@ router.get('/:categoryId', CategoryController.getSpecificCategory);
 router.post('/', CategoryController.createCategory);
 router.put('/:categoryId', CategoryController.updateCategory);
 router.delete('/:categoryId', CategoryController.deleteCategory);
-
+router.get('/bkend', CategoryController.getAllCategoriesForBackend)
 module.exports = router;

@@ -11,6 +11,15 @@ const getAllCategories = async (req, res) => {
     }
 };
 
+const getAllCategoriesForBackend = async (req, res) => {
+    try {
+        const category = await Categories.find();
+        res.json(category);
+    } catch (err) {
+        res.json({ message: err });
+    }
+};
+
 // Get a specific category
 
 const getSpecificCategory = async (req, res) => {
@@ -85,5 +94,6 @@ module.exports = {
     getSpecificCategory,
     createCategory,
     updateCategory,
-    deleteCategory
+    deleteCategory,
+    getAllCategoriesForBackend
 };
