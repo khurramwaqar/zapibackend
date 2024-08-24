@@ -278,7 +278,8 @@ const createSeries = async (req, res) => {
         geoPolicy: req.body.geoPolicy,
         adsManager: req.body.adsManager,
         seriesType: req.body.seriesType,
-        publishedAt: Date.now() + (5 * 60 * 60 * 1000)
+        publishedAt: Date.now() + (5 * 60 * 60 * 1000),
+        isDM: req.body.isDM
     });
 
     try {
@@ -319,7 +320,8 @@ const updateSeries = async (req, res) => {
                     status: "published",
                     geoPolicy: req.body.geoPolicy,
                     adsManager: req.body.adsManager,
-                    seriesType: req.body.seriesType
+                    seriesType: req.body.seriesType,
+                    isDM: req.body.isDM
                 },
             }
         );

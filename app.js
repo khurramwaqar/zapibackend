@@ -152,6 +152,7 @@ if (cluster.isMaster) {
     const { options } = require('apicache');
 
     const SearchApi = require('./routes/SearchApi');
+    const DMEpisodeRoute = require('./routes/DMEpisode');
 
 
 
@@ -166,6 +167,7 @@ if (cluster.isMaster) {
     app.use('/api/episodes', episodeRoute);
     app.use('/api/geo', geoPolicyRoute);
     app.use('/api/yt', YTEpisodeRoute);
+    app.use('/api/dm', DMEpisodeRoute);
     app.use('/api/payment', PaymentRoute);
     app.use('/api/cf', GetCountry);
     app.use('/api/media', mediaRoute);

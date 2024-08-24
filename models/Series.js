@@ -117,6 +117,11 @@ const SeriesSchema = new mongoose.Schema({
         type: Number,
         default: null,
         required: false
+    },
+    isDM: {
+        type: Boolean,
+        default: false,
+        required: false
     }
 });
 
