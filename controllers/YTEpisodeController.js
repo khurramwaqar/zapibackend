@@ -37,7 +37,7 @@ const ytEPF = async (req, res) => {
 
         for (const item of data) {
 
-            const existingItem = await YTEpisodeSchema.findOne({ id: item.id });
+            const existingItem = await YTEpisodeSchema.findOne({ title: item.snippet.title });
 
             if (!existingItem) {
                 const seriesId = { seriesId: req.params.seriesId, videoSource: null, title: item.snippet.title, description: item.snippet.description, imagePath: item?.snippet?.thumbnails?.medium?.url, videoYtId: item.contentDetails.videoId, videoViews: null, videoLength: null }
