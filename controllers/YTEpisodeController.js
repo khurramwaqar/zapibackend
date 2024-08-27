@@ -40,15 +40,16 @@ const ytEPF = async (req, res) => {
             const existingItem = await YTEpisodeSchema.findOne({ videoYtId: item.contentDetails.videoId });
 
             if (!existingItem) {
-                const seriesId = { seriesId: req.params.seriesId, videoSource: null, title: item.snippet.title, description: item.snippet.description, imagePath: item?.snippet?.thumbnails?.medium?.url, videoYtId: item.contentDetails.videoId, videoViews: null, videoLength: null }
                 //Insert a new Item
-                const newItem = await YTEpisodeSchema.create({ ...seriesId });
-                console.log(`Inserted item with _id ${newItem._id}`);
+                const newItem = new YTEpisodeSchema({ seriesId: req.params.seriesId, videoSource: null, title: item.snippet.title, description: item.snippet.description, imagePath: item?.snippet?.thumbnails?.medium?.url, videoYtId: item.contentDetails.videoId, videoViews: null, videoLength: null });
+                const savedEpisode = await newItem.save();
+                console.log(`Inserted item with _id ${savedEpisode._id}`);
+                newData.push(savedEpisode);
             } else {
                 console.log(`Item with _id ${item.id} already exists in the database.`);
             }
 
-            newData.push(item);
+
         }
 
         res.json(newData);

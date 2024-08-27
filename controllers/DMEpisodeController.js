@@ -14,7 +14,7 @@ const getDMEpisode = async (req, res) => {
             const { id, thumbnail_180_url, title, views_total, duration, owner, description } = episodeData;
 
             // Check if the episode already exists
-            let existingEpisode = await DMEpisode.findOne({ id: id });
+            let existingEpisode = await DMEpisode.findOne({ videoDmId: id });
 
             if (!existingEpisode) {
                 // If episode doesn't exist, create a new entry
