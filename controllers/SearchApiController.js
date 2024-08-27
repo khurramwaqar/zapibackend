@@ -22,8 +22,7 @@ const doSearch = async (req, res) => {
         // Search in YTEpisode
         const episodeResults = await YTEpisode.find({
             $or: [
-                { id: { $regex: query, $options: 'i' } },
-                { title: { $regex: query, $options: 'i' } }
+                { 'title': { $regex: query, $options: 'i' } }
                 // { 'snippet.description': { $regex: query, $options: 'i' } },
             ]
         });
