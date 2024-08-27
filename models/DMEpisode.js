@@ -2,42 +2,51 @@ const mongoose = require('mongoose');
 
 const DMEpisodeSchema = new mongoose.Schema({
     seriesId: {
-        type: String,
-        trim: true
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Series'
     },
     videoSource: {
         type: String,
         required: false,
-    },
-    thumbnail_180_url: {
-        type: String,
-        required: false
+        default: null,
+        trim: true
     },
     title: {
         type: String,
-        required: false
+        required: false,
+        trim: true
     },
-    id: {
+    description: {
         type: String,
-        required: false
+        required: false,
+        trim: true
     },
-    views_total: {
-        type: Number,
-        required: false
-    },
-    duration: {
-        type: Number,
-        required: false
-    },
-    ownerName: {
+    imagePath: {
         type: String,
-        required: false
+        required: false,
+        trim: true
     },
-    owenerId: {
+    videoDmId: {
         type: String,
-        required: false
+        required: false,
+        trim: true
+    },
+    videoYtId: {
+        type: String,
+        required: false,
+        trim: true
+    },
+    videoViews: {
+        type: String,
+        required: false,
+        trim: true
+    },
+    videoLength: {
+        type: String,
+        required: false,
+        trim: true
     }
-
 });
 
 module.exports = mongoose.model('DMEpisode', DMEpisodeSchema);

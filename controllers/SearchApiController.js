@@ -37,7 +37,26 @@ const doSearch = async (req, res) => {
         res.status(500).json({ error: 'An error occurred while searching.' });
     }
 };
+const doSearchbyCast = async (req, res) => {
+    const query = req.params.castId;
 
+    try {
+        // Search in Series
+        const seriesResults = await Series.find({
+            $or: [
+                { cast: { $regex: query, $options: 'i' } }  // Searching within cast array
+
+            ]
+        });
+
+        res.status(200).json({
+            series: seriesResults
+        });
+    } catch (error) {
+        res.status(500).json({ error: 'An error occurred while searching.' });
+    }
+};
 module.exports = {
-    doSearch
+    doSearch,
+    doSearchbyCast
 };

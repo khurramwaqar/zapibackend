@@ -7,11 +7,11 @@ const getDMEpisode = async (req, res) => {
 
     try {
         // Fetch data from Dailymotion API
-        const response = await axios.get(`https://api.dailymotion.com/playlist/${playlistId}/videos?fields=thumbnail_180_url,title,id,views_total,duration,owner.screenname,owner&page=${page}&limit=${limit}&sort=id-asc`);
+        const response = await axios.get(`https://api.dailymotion.com/playlist/${playlistId}/videos?fields=thumbnail_180_url,title,id,views_total,duration,owner.screenname,owner,description&page=${page}&limit=${limit}&sort=id-asc`);
         const episodes = response.data.list;
 
         for (let episodeData of episodes) {
-            const { id, thumbnail_180_url, title, views_total, duration, owner } = episodeData;
+            const { id, thumbnail_180_url, title, views_total, duration, owner, description } = episodeData;
 
             // Check if the episode already exists
             let existingEpisode = await DMEpisode.findOne({ id: id });
@@ -21,13 +21,12 @@ const getDMEpisode = async (req, res) => {
                 let newEpisode = new DMEpisode({
                     seriesId: seriesId, // Replace with actual seriesId if available
                     videoSource: 'Dailymotion', // Assuming the source is Dailymotion
-                    thumbnail_180_url,
-                    title,
-                    id,
-                    views_total,
-                    duration,
-                    ownerName: owner.screenname,
-                    owenerId: owner.id
+                    imagePath: thumbnail_180_url,
+                    description: description,
+                    title: title,
+                    videoDmId: id,
+                    videoViews: views_total,
+                    videoDuration: duration
                 });
 
                 await newEpisode.save();

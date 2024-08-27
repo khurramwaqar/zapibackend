@@ -9,39 +9,75 @@ const YTEpisodeSchema = new mongoose.Schema({
     videoSource: {
         type: String,
         required: false,
+        default: null,
         trim: true
     },
-    kind: {
+    title: {
         type: String,
         required: false,
         trim: true
     },
-    etag: {
-        type: String,
-        required: false,
-        trim: true,
-        unique: true
-    },
-    id: {
+    description: {
         type: String,
         required: false,
         trim: true
     },
-    snippet: {
-        type: Object,
+    imagePath: {
+        type: String,
         required: false,
         trim: true
     },
-    contentDetails: {
-        type: Object,
+    videoDmId: {
+        type: String,
         required: false,
         trim: true
     },
-    status: {
-        type: Object,
+    videoYtId: {
+        type: String,
+        required: false,
+        trim: true
+    },
+    videoViews: {
+        type: String,
+        required: false,
+        trim: true
+    },
+    videoLength: {
+        type: String,
         required: false,
         trim: true
     }
+    // kind: {
+    //     type: String,
+    //     required: false,
+    //     trim: true
+    // },
+    // etag: {
+    //     type: String,
+    //     required: false,
+    //     trim: true,
+    //     unique: true
+    // },
+    // id: {
+    //     type: String,
+    //     required: false,
+    //     trim: true
+    // },
+    // snippet: {
+    //     type: Object,
+    //     required: false,
+    //     trim: true
+    // },
+    // contentDetails: {
+    //     type: Object,
+    //     required: false,
+    //     trim: true
+    // },
+    // status: {
+    //     type: Object,
+    //     required: false,
+    //     trim: true
+    // }
 
 });
 
