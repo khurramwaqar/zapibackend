@@ -45,7 +45,7 @@ const fetchEPbySeriesId = async (req, res) => {
     const { seriesId } = req.params;
     try {
         const episodes = await DMEpisode.find({ seriesId: seriesId });
-        res.status(200).json({ episodes: episodes });
+        res.status(200).json({ episode: episodes });
     }
     catch (errot) {
         console.error('Error fetching:', error);
@@ -57,7 +57,7 @@ const fetchAllEpisodes = async (req, res) => {
 
     try {
         const episodes = await DMEpisode.find();
-        res.status(200).json({ episodes: episodes });
+        res.status(200).json({ episode: episodes });
     }
     catch (errot) {
         console.error('Error fetching:', error);
