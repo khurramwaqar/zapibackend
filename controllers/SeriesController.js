@@ -326,7 +326,7 @@ const updateSeries = async (req, res) => {
                     adsManager: req.body.adsManager,
                     seriesType: req.body.seriesType,
                     isDM: req.body.isDM
-                },
+                }
             }
         );
 
