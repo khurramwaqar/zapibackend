@@ -31,6 +31,16 @@ const SeriesSchema = new mongoose.Schema({
         required: false,
         trim: true
     },
+    seiresCDNWebLink: {
+        type: String,
+        required: false,
+        trim: true
+    },
+    seiresCDNWebKey: {
+        type: String,
+        required: false,
+        trim: true
+    },
     imagePoster: {
         type: String,
         required: false,
