@@ -28,7 +28,8 @@ const getAllSeries = async (req, res) => {
             },
             {
                 $match: {
-                    'geoPolicyInfo.countries': "PK"
+                    'geoPolicyInfo.countries': "PK",
+                    'match': 'published'
                 }
             },
             {
@@ -62,7 +63,8 @@ const getSeriesCountByCatId = async (req, res) => {
             },
             {
                 $match: {
-                    'categoryInfo._id': catId
+                    'categoryInfo._id': catId,
+                    'match': 'published'
                 }
             },
             {
@@ -111,7 +113,8 @@ const getAllSeriesByCategoriesId = async (req, res) => {
                 },
                 {
                     $match: {
-                        'categoryIdInfo.title': req.params.catId
+                        'categoryIdInfo.title': req.params.catId,
+                        'match': 'published'
                     }
                 }, {
                     $lookup: {
@@ -215,7 +218,8 @@ const getAllSeriesByCategoriesIdInt = async (req, res) => {
             },
             {
                 $match: {
-                    'categoryIdInfo.categoryId': [req.params.catId]
+                    'categoryIdInfo.categoryId': [req.params.catId],
+                    'match': 'published'
                 }
             },
             {
