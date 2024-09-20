@@ -4,9 +4,15 @@ const Favorite = require('../models/Favorites'); // Adjust the path as necessary
 exports.createFavorite = async (req, res) => {
     try {
         const { userId, seriesId } = req.body;
-        const favorite = new Favorite({ userId, seriesId });
-        await favorite.save();
-        res.status(201).json({ message: 'Favorite added successfully', favorite });
+        if (seriesId && userId) {
+            const favorite = new Favorite({ userId, seriesId });
+            await favorite.save();
+            res.status(201).json({ message: 'Favorite added successfully', favorite });
+        } else {
+
+            res.status(400).json({ error: 'Series ID not found' });
+        }
+
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
