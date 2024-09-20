@@ -30,7 +30,7 @@ const ytEPF = async (req, res) => {
     const episodeData = [];
 
     try {
-        const resp = await axios.get(`https://www.googleapis.com/youtube/v3/playlistItems?part=status,snippet,id,contentDetails&playlistId=${req.params.playlistId}&key=AIzaSyAC0SFYQGHzybGsYo8Ll1tG5GPrHZvl4zc&maxResults=100`);
+        const resp = await axios.get(`https://www.googleapis.com/youtube/v3/playlistItems?part=status,snippet,id,contentDetails&playlistId=${req.params.playlistId}&key=AIzaSyAPkP3ZAajyxoKlbpvZFj2a9N2jZwlxcoM&maxResults=100`);
         const data = resp.data.items;
 
         // TODO: Create a For loop that will check if item etag is already exists or not if its not exists then it will create a new item

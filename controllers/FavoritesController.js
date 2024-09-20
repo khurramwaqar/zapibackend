@@ -95,10 +95,8 @@ exports.toggleFavorite = async (req, res) => {
                 return res.status(201).json({ message: 'Favorite added successfully', favorite });
             }
         } else {
-
             res.status(400).json({ error: 'Series ID not found' });
         }
-
 
     } catch (error) {
         res.status(400).json({ error: error.message });
