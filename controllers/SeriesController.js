@@ -4,7 +4,25 @@ const mongoose = require('mongoose');
 const redisClient = require('../redis-server')
 //Get All Series
 
+const getAllSeriesWithGenres = async (req, res) => {
+    try {
 
+        const code = await axios.get('https://1.1.1.1/cdn-cgi/trace');
+        const newArray = code.data.match(/loc=(\S+)/)[1];
+        const data = newArray;
+        // const series = await Series.find({ status: "published" }).populate({
+        //     path: 'geoPolicy',
+        //     match: { 'condition': 'Available' },
+        //     select: 'condition'
+        // });
+        const series = await Series.find().select("title description cast imagePoster genreId").populate("genreId", "title");
+        //db.events.find({"details.detail_list.count": {"$gt": 0}})
+
+        res.json({ series: series });
+    } catch (err) {
+        res.json({ message: err });
+    }
+};
 
 const getAllSeries = async (req, res) => {
     try {
@@ -304,6 +322,7 @@ const updateSeries = async (req, res) => {
                 $set: {
                     title: req.body.title,
                     description: req.body.description,
+                    cast: req.body.cast,
                     seriesDM: req.body.seriesDM,
                     seriesYT: req.body.seriesYT,
                     seiresCDN: req.body.seiresCDN,
@@ -390,6 +409,7 @@ const updateSeriesPositions = async (req, res) => {
 };
 
 module.exports = {
+    getAllSeriesWithGenres,
     getAllSeries,
     getSpecificSeries,
     createSeries,

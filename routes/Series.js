@@ -2,6 +2,7 @@ const router = require('express').Router();
 const SeriesController = require('../controllers/SeriesController');
 
 router.get('/', SeriesController.getAllSeries);
+router.get('/sergen', SeriesController.getAllSeriesWithGenres);
 router.get('/:seriesId', SeriesController.getSpecificSeries);
 router.get('/byCatID/:catId', SeriesController.getAllSeriesByCategoriesId);
 router.get('/byCatID/:catId/:cn', SeriesController.getAllSeriesByCategoriesId);
