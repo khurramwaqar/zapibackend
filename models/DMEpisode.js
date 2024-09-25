@@ -46,6 +46,10 @@ const DMEpisodeSchema = new mongoose.Schema({
         type: String,
         required: false,
         trim: true
+    },
+    createdAd: {
+        type: Date,
+        default: Date.now
     }
 });
 
