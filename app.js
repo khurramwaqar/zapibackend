@@ -155,6 +155,7 @@ if (cluster.isMaster) {
 
     const SearchApi = require('./routes/SearchApi');
     const DMEpisodeRoute = require('./routes/DMEpisode');
+    const CDNEpisodeRoute = require('./routes/CDNEpisode');
 
 
 
@@ -202,6 +203,7 @@ if (cluster.isMaster) {
     app.use('/api/ratings', ratingsRoutes);
     app.use('/api/feedback', feedbackRoutes);
     app.use('/api/search', SearchApi);
+    app.use('/api/cdn', CDNEpisodeRoute);
 
 
     // Serve static files from the 'public' folder
