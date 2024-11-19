@@ -124,6 +124,8 @@ if (cluster.isMaster) {
     const mediaSliderRoute = require('./routes/MediaSlider');
     const mediaPromotionalBanner = require('./routes/MediaPromotionalBanner');
     const mediaVODUpload = require('./routes/VODUpload');
+    const CDNV1Upload = require('./routes/MediaCDNV1');
+    const CDNV2Upload = require('./routes/MediaCDNV2');
     const geoPolicyRoute = require('./routes/GeoPolicy');
     const GetCountry = require('./routes/GetCountry');
     const VodContent = require('./routes/VodContent');
@@ -181,6 +183,8 @@ if (cluster.isMaster) {
     app.use('/api/media', mediaPromotionalBanner);
     app.use('/api/media', mediaLogoRoute);
     app.use('/api/media', mediaVODUpload);
+    app.use('/api/media', CDNV1Upload);
+    app.use('/api/media', CDNV2Upload);
     app.use('/api/ads', AdsManagerRoutes);
 
     app.use('/api/subuser', userSubscriberRoutes);
