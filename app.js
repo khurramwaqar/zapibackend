@@ -138,6 +138,8 @@ if (cluster.isMaster) {
     const episodeDesktopRoute = require('./routes/EpisodeMediaDesktop');
 
     const favoritesRoutes = require('./routes/Favorites');
+    const ratingsRoutes = require('./routes/Rating');
+    const feedbackRoutes = require('./routes/Feedback');
 
     // Private Routes   --------------------------------
 
@@ -197,6 +199,8 @@ if (cluster.isMaster) {
     app.use('/api/emedia', episodeLogoRoute);
 
     app.use('/api/fav', favoritesRoutes);
+    app.use('/api/ratings', ratingsRoutes);
+    app.use('/api/feedback', feedbackRoutes);
     app.use('/api/search', SearchApi);
 
 

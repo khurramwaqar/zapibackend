@@ -5,18 +5,22 @@ const Slider = require('../models/Slider');
 const getAllSlider = async (req, res) => {
     try {
         const slider = await Slider.find();
-        res.json({slider:slider});
+        res.json({ slider: slider });
     } catch (err) {
         res.json({ message: err });
     }
 }
 
-//Get a specific genre
+// get specific slider with country geo poliy
+
+
+
+//Get a specific slider
 
 const getSpecificSlider = async (req, res) => {
     try {
         const slider = await Slider.findById(req.params.sliderId).populate("sliderData");
-        res.json({ slider: slider});
+        res.json({ slider: slider });
     } catch (err) {
         res.json({ message: err });
     }
