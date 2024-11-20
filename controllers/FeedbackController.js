@@ -30,6 +30,14 @@ exports.getFeedbackByUser = async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 };
+exports.getFeedbacks = async (req, res) => {
+    try {
+        const ratings = await Feedback.find().select('userId feedback app addedAt rate');
+        res.status(200).json(ratings);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
 
 // Get all ratings for a user based on a specific series
 exports.getRatingsByUserSeriesBased = async (req, res) => {

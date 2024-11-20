@@ -9,6 +9,9 @@ router.post('/create', FeedbackController.createFeedback);
 // Get all Ratingss for a user
 router.get('/user/:userId', FeedbackController.getFeedbackByUser);
 
+// Get all Ratingss for a user
+router.get('/', FeedbackController.getFeedbacks);
+
 
 
 module.exports = router;
