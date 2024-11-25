@@ -44,7 +44,7 @@ const getDMEpisode = async (req, res) => {
 const fetchEPbySeriesId = async (req, res) => {
     const { seriesId } = req.params;
     try {
-        const episodes = await DMEpisode.find({ seriesId: seriesId }).limit(20);
+        const episodes = await DMEpisode.find({ seriesId: seriesId });
         res.status(200).json({ episode: episodes });
     }
     catch (errot) {
