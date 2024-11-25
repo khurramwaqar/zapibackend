@@ -54,7 +54,7 @@ if (cluster.isMaster) {
 
     // ... (Your Express application code here)
 
-    const port = process.env.PORT || 3001; // Use environment variable for port or default to 3000
+    const port = process.env.PORT || 8080; // Use environment variable for port or default to 3000
 
 
     app.get('/api/v1/stats', async (req, res) => {
