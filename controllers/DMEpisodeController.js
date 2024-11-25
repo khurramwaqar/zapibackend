@@ -53,33 +53,6 @@ const fetchEPbySeriesId = async (req, res) => {
     }
 }
 
-const fetchEPbySeriesIdPg = async (req, res) => {
-    const { seriesId } = req.params;
-    const { page = 1, limit = 10 } = req.query; // Defaults: page = 1, limit = 10
-
-    try {
-        const episodes = await DMEpisode.find({ seriesId: seriesId })
-            .skip((page - 1) * limit) // Skip the documents for previous pages
-            .limit(Number(limit)); // Limit the number of documents returned
-
-        const totalEpisodes = await DMEpisode.countDocuments({ seriesId: seriesId }); // Total episodes for the series
-        const totalPages = Math.ceil(totalEpisodes / limit);
-
-        res.status(200).json({
-
-            episodes,
-            currentPage: Number(page),
-            limit: Number(limit),
-            totalEpisodes,
-            totalPages,
-        });
-    } catch (error) {
-        console.error('Error fetching:', error);
-        res.status(500).json({ message: 'Failed to fetch episodes', error });
-    }
-};
-
-
 const fetchAllEpisodes = async (req, res) => {
 
     try {
@@ -95,6 +68,5 @@ const fetchAllEpisodes = async (req, res) => {
 module.exports = {
     getDMEpisode,
     fetchEPbySeriesId,
-    fetchAllEpisodes,
-    fetchEPbySeriesIdPg
+    fetchAllEpisodes
 }
