@@ -43,7 +43,7 @@ const ytEPF = async (req, res) => {
                 //Insert a new Item
 
                 if (item.snippet.title !== "Private video") {
-                    const newItem = new YTEpisodeSchema({ seriesId: req.params.seriesId, videoSource: null, title: item.snippet.title, description: item.snippet.description, imagePath: item?.snippet?.thumbnails?.medium?.url, videoYtId: item.contentDetails.videoId, videoViews: null, videoLength: null });
+                    const newItem = new YTEpisodeSchema({ seriesId: req.params.seriesId, videoSource: null, title: item.snippet.title, description: item.snippet.description, imagePath: item?.snippet?.thumbnails?.medium?.url, videoYtId: item.contentDetails.videoId, videoViews: null, videoLength: null, createdAd: item?.snippet?.publishedAt });
                     const savedEpisode = await newItem.save();
                     console.log(`Inserted item with _id ${savedEpisode._id}`);
                     newData.push(savedEpisode);
@@ -188,7 +188,7 @@ const getSpecificYTEpisodesBySeriesIDPG = async (req, res) => {
         // Fetch episodes with pagination
         const episodes = await YTEpisodeSchema.find({ seriesId })
             .skip(skip)
-            .sort({ createdAd: 1 })
+            .sort({ createdAd: -1 })
             .limit(limit);
 
         // Fetch total count of episodes for the given seriesId

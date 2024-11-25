@@ -49,7 +49,7 @@ const YTEpisodeSchema = new mongoose.Schema({
     },
     createdAd: {
         type: Date,
-        default: Date.now
+        required: false,
     }
 
 });
