@@ -91,7 +91,7 @@ const getSpecificYTEpisodesBySeriesID = async (req, res) => {
 
     try {
         const episode = await YTEpisodeSchema.find({ seriesId: req.params.seriesId })
-            .sort({ createdAd: 1 }) // Sort in descending order
+            .sort({ createdAd: -1 }) // Sort in descending order
             .limit(20);
         res.json({ episode: episode });
     } catch (err) {
