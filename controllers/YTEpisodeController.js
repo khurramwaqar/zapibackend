@@ -41,10 +41,16 @@ const ytEPF = async (req, res) => {
 
             if (!existingItem) {
                 //Insert a new Item
-                const newItem = new YTEpisodeSchema({ seriesId: req.params.seriesId, videoSource: null, title: item.snippet.title, description: item.snippet.description, imagePath: item?.snippet?.thumbnails?.medium?.url, videoYtId: item.contentDetails.videoId, videoViews: null, videoLength: null });
-                const savedEpisode = await newItem.save();
-                console.log(`Inserted item with _id ${savedEpisode._id}`);
-                newData.push(savedEpisode);
+
+                if (item.snippet.title !== "Private video") {
+                    const newItem = new YTEpisodeSchema({ seriesId: req.params.seriesId, videoSource: null, title: item.snippet.title, description: item.snippet.description, imagePath: item?.snippet?.thumbnails?.medium?.url, videoYtId: item.contentDetails.videoId, videoViews: null, videoLength: null });
+                    const savedEpisode = await newItem.save();
+                    console.log(`Inserted item with _id ${savedEpisode._id}`);
+                    newData.push(savedEpisode);
+                } else {
+                    console.log("private video found");
+                }
+
             } else {
                 console.log(`Item with _id ${item.id} already exists in the database.`);
             }
@@ -84,7 +90,9 @@ const getSpecificYTEpisode = async (req, res) => {
 const getSpecificYTEpisodesBySeriesID = async (req, res) => {
 
     try {
-        const episode = await YTEpisodeSchema.find({ seriesId: req.params.seriesId });
+        const episode = await YTEpisodeSchema.find({ seriesId: req.params.seriesId })
+            .sort({ createdAd: 1 }) // Sort in descending order
+            .limit(20);
         res.json({ episode: episode });
     } catch (err) {
         res.json({ message: err });
@@ -111,8 +119,13 @@ const createYTEpisode = async (req, res) => {
     });
 
     try {
-        const savedEpisode = await episode.save();
-        res.json(savedEpisode);
+        if (req.body.title !== "Private video") {
+            const savedEpisode = await episode.save();
+            res.json(savedEpisode);
+        } else {
+            res.json({ message: "Private video" });
+        }
+
     } catch (err) {
         res.json({ message: err });
     }
@@ -160,6 +173,41 @@ const deleteYTEpisode = async (req, res) => {
     }
 };
 
+const getSpecificYTEpisodesBySeriesIDPG = async (req, res) => {
+    try {
+        // Extract seriesId from request parameters
+        const seriesId = req.params.seriesId;
+
+        // Extract page and limit from query parameters (default values are 1 and 10)
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+
+        // Calculate the number of documents to skip
+        const skip = (page - 1) * limit;
+
+        // Fetch episodes with pagination
+        const episodes = await YTEpisodeSchema.find({ seriesId })
+            .skip(skip)
+            .sort({ createdAd: 1 })
+            .limit(limit);
+
+        // Fetch total count of episodes for the given seriesId
+        const totalEpisodes = await YTEpisodeSchema.countDocuments({ seriesId });
+
+        // Send paginated response
+        res.json({
+            episodes,
+            currentPage: page,
+            totalPages: Math.ceil(totalEpisodes / limit),
+            totalEpisodes,
+
+            limit: Number(limit),
+        });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
 module.exports = {
     getAllYTEpisodes,
     getSpecificYTEpisode,
@@ -168,5 +216,6 @@ module.exports = {
     deleteYTEpisode,
     getSpecificYTEpisodesBySeriesID,
     ytEPF,
-    getLoc
+    getLoc,
+    getSpecificYTEpisodesBySeriesIDPG
 };

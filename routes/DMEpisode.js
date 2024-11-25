@@ -5,5 +5,6 @@ const DMEpisodeController = require('../controllers/DMEpisodeController'); // Ad
 // Route to fetch and store episodes
 router.get('/:seriesId/:playlistId/:page/:limit', DMEpisodeController.getDMEpisode);
 router.get('/:seriesId', DMEpisodeController.fetchEPbySeriesId);
+router.get('/pg/:seriesId', DMEpisodeController.fetchEPbySeriesIdPg);  //this was pagination api
 router.get('/', DMEpisodeController.fetchAllEpisodes);
 module.exports = router;

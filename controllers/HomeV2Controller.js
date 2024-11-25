@@ -72,7 +72,7 @@ const getSpecificHome = async (req, res) => {
                         })
                     }
                     if (home.homeData[i].type == "SingleSeries") {
-                        const resp = await axios.get(`https://node.aryzap.com/api/yt/${home.homeData[i].data}`);
+                        const resp = await axios.get(`https://node.aryzap.com/api/yt/${home.homeData[i].data}`);;
                         const datas = resp.data;
                         newData.push({
                             id: 1,
