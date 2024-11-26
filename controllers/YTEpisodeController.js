@@ -25,46 +25,70 @@ const getLoc = async (req, res) => {
 };
 
 const ytEPF = async (req, res) => {
-
     const newData = [];
-    const episodeData = [];
-
     try {
-        const resp = await axios.get(`https://www.googleapis.com/youtube/v3/playlistItems?part=status,snippet,id,contentDetails&playlistId=${req.params.playlistId}&key=AIzaSyAPkP3ZAajyxoKlbpvZFj2a9N2jZwlxcoM&maxResults=100`);
+        // Fetch playlist items from YouTube API
+        const resp = await axios.get(`https://www.googleapis.com/youtube/v3/playlistItems`, {
+            params: {
+                part: "status,snippet,id,contentDetails",
+                playlistId: req.params.playlistId,
+                key: "AIzaSyAPkP3ZAajyxoKlbpvZFj2a9N2jZwlxcoM",
+                maxResults: 100,
+            },
+        });
+
         const data = resp.data.items;
 
-        // TODO: Create a For loop that will check if item etag is already exists or not if its not exists then it will create a new item
-
         for (const item of data) {
+            const videoId = item.contentDetails.videoId;
+            const title = item.snippet.title;
 
-            const existingItem = await YTEpisodeSchema.findOne({ videoYtId: item.contentDetails.videoId });
-
-            if (!existingItem) {
-                //Insert a new Item
-
-                if (item.snippet.title !== "Private video") {
-                    const newItem = new YTEpisodeSchema({ seriesId: req.params.seriesId, videoSource: null, title: item.snippet.title, description: item.snippet.description, imagePath: item?.snippet?.thumbnails?.medium?.url, videoYtId: item.contentDetails.videoId, videoViews: null, videoLength: null, createdAd: item?.snippet?.publishedAt });
-                    const savedEpisode = await newItem.save();
-                    console.log(`Inserted item with _id ${savedEpisode._id}`);
-                    newData.push(savedEpisode);
-                } else {
-                    console.log("private video found");
-                }
-
-            } else {
-                console.log(`Item with _id ${item.id} already exists in the database.`);
+            // Skip private videos
+            if (title === "Private video") {
+                console.log(`Private video skipped: videoId=${videoId}`);
+                continue;
             }
 
+            // Check if the video already exists
+            const existingItem = await YTEpisodeSchema.findOne({ videoYtId: videoId });
+            if (existingItem) {
+                console.log(`Video already exists: videoId=${videoId}`);
+                continue;
+            }
 
+            // Build new item
+            const newItemData = {
+                seriesId: req.params.seriesId,
+                videoSource: null,
+                title: title,
+                description: item.snippet.description,
+                imagePath: item?.snippet?.thumbnails?.medium?.url,
+                videoYtId: videoId,
+                videoViews: null,
+                videoLength: null,
+            };
+
+            // Add createdAd field for specific series IDs
+            // sirf drama ost or telefilms pe nahi kar rahay due to sorting issue 
+            if (req.params.seriesId !== "66bdbdeabd61cd78039fc9be" && req.params.seriesId !== "66bdf4acaae81905147c4cb5") {
+                newItemData.createdAd = item?.snippet?.publishedAt;
+            }
+
+            // Save new item to the database
+            const newItem = new YTEpisodeSchema(newItemData);
+            const savedEpisode = await newItem.save();
+            console.log(`Inserted new video: videoId=${videoId}, _id=${savedEpisode._id}`);
+            newData.push(savedEpisode);
         }
 
-        res.json(newData);
-
+        // Respond with new data
+        return res.json(newData);
     } catch (e) {
-        res.json({ error: e.message });
+        console.error(`Error fetching or saving data: ${e.message}`);
+        return res.status(500).json({ error: e.message });
     }
-
 };
+
 
 const getAllYTEpisodes = async (req, res) => {
     try {
@@ -88,16 +112,25 @@ const getSpecificYTEpisode = async (req, res) => {
 };
 
 const getSpecificYTEpisodesBySeriesID = async (req, res) => {
-
     try {
-        const episode = await YTEpisodeSchema.find({ seriesId: req.params.seriesId })
-            .sort({ createdAd: -1 }) // Sort in descending order
-            .limit(20);
-        res.json({ episode: episode });
+        const { seriesId } = req.params;
+        const query = YTEpisodeSchema.find({ seriesId });
+
+        // Check for specific series IDs and apply appropriate sorting        
+        // sirf drama ost or telefilms pe nahi kar rahay due to sorting issue 
+        if (seriesId !== "66bdbdeabd61cd78039fc9be" && seriesId !== "66bdf4acaae81905147c4cb5") {
+            query.sort({ createdAd: -1 }); // Sort in descending order
+        }
+
+        // Apply limit and execute query
+        const episodes = await query.limit(20);
+
+        return res.json({ episodes });
     } catch (err) {
-        res.json({ message: err });
+        return res.status(500).json({ message: err.message });
     }
 };
+
 
 //Create a new episode
 
