@@ -6,8 +6,8 @@ exports.createFeedback = async (req, res) => {
         const { userId, feedback, app, rate } = req.body;
 
         // Basic validation
-        if (!userId || !feedback || !app || !rate) {
-            return res.status(400).json({ error: 'Missing userId or feedback or app name' });
+        if (!userId || !app || !rate) {
+            return res.status(400).json({ error: 'Missing rate, userId or app name' });
         }
 
         const feedback_query = new Feedback({ userId, feedback, app, rate });
