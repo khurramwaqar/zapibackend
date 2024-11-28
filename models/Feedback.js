@@ -7,7 +7,7 @@ const FeedbackSchema = new mongoose.Schema({
     },
     feedback: {
         type: String,
-        required: true,
+        required: false,
     },
     rate: {
         type: Number,
