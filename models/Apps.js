@@ -5,7 +5,11 @@ const AppsSchema = new mongoose.Schema({
     description: String,
     image: String,
     bundleId: String,
-    platform: String
+    platform: String,
+    appsConfig: {
+        type: Object,
+        required: false
+    }
 });
 
 module.exports = mongoose.model('Apps', AppsSchema);

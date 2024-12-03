@@ -6,6 +6,7 @@ router.get('/sergen', SeriesController.getAllSeriesWithGenres);
 router.get('/:seriesId', SeriesController.getSpecificSeries);
 router.get('/byCatID/:catId', SeriesController.getAllSeriesByCategoriesId);
 router.get('/byCatID/:catId/:cn', SeriesController.getAllSeriesByCategoriesId);
+router.get('/byCatID/pg/:catId/:cn', SeriesController.getAllSeriesByCategoriesIdPG);
 
 router.get('/byCatIDInt/:catId', SeriesController.getAllSeriesByCategoriesIdInt);
 

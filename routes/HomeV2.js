@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const HomeV2Controller = require('../controllers/HomeV2Controller');
+const authMiddleware = require('../middlewares/auth');
 
+//router.use(authMiddleware);
 
 router.get('/', HomeV2Controller.getAllHome);
 router.get('/v2', HomeV2Controller.getAllHomeV2);

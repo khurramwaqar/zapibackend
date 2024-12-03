@@ -31,6 +31,7 @@ const createApp = async (req, res) => {
         image: req.body.image,
         bundleId: req.body.bundleId,
         platform: req.body.platform,
+        appsConfig: req.body.appsConfig
     });
 
     try {
@@ -55,6 +56,7 @@ const updateApp = async (req, res) => {
                     image: req.body.image,
                     bundleId: req.body.bundleId,
                     platform: req.body.platform,
+                    appsConfig: req.body.appsConfig
                 },
             }
         );
