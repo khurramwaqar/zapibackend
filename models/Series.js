@@ -132,7 +132,29 @@ const SeriesSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
         required: false
+    },
+    seriesLayout: {
+        type: String,
+        enum: ['v1', 'v2'], // Allowed values
+        required: false, // Make it required if necessary
+        default: 'v1' // Optional: Set a default value
+    },
+    isLive: {
+        type: Boolean,
+        default: false,
+        required: false
+    },
+    optionalFieldOne: {
+        type: String,
+        required: false,
+        trim: true
+    },
+    optionalFieldTwo: {
+        type: String,
+        required: false,
+        trim: true
     }
+
 });
 
 module.exports = mongoose.model('Series', SeriesSchema);

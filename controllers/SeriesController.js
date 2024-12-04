@@ -409,7 +409,11 @@ const createSeries = async (req, res) => {
         adsManager: req.body.adsManager,
         seriesType: req.body.seriesType,
         publishedAt: Date.now() + (5 * 60 * 60 * 1000),
-        isDM: req.body.isDM
+        isDM: req.body.isDM,
+        seriesLayout: req.body.seriesLayout,
+        isLive: req.body.isLive,
+        optionalFieldOne: req.body.optionalFieldOne,
+        optionalFieldTwo: req.body.optionalFieldTwo
     });
 
     try {
@@ -454,7 +458,11 @@ const updateSeries = async (req, res) => {
                     geoPolicy: req.body.geoPolicy,
                     adsManager: req.body.adsManager,
                     seriesType: req.body.seriesType,
-                    isDM: req.body.isDM
+                    isDM: req.body.isDM,
+                    seriesLayout: req.body.seriesLayout,
+                    isLive: req.body.isLive,
+                    optionalFieldOne: req.body.optionalFieldOne,
+                    optionalFieldTwo: req.body.optionalFieldTwo
                 }
             }
         );
