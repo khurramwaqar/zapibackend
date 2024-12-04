@@ -413,7 +413,8 @@ const createSeries = async (req, res) => {
         seriesLayout: req.body.seriesLayout,
         isLive: req.body.isLive,
         optionalFieldOne: req.body.optionalFieldOne,
-        optionalFieldTwo: req.body.optionalFieldTwo
+        optionalFieldTwo: req.body.optionalFieldTwo,
+        releaseDate: req.body.releaseDate
     });
 
     try {
@@ -462,7 +463,8 @@ const updateSeries = async (req, res) => {
                     seriesLayout: req.body.seriesLayout,
                     isLive: req.body.isLive,
                     optionalFieldOne: req.body.optionalFieldOne,
-                    optionalFieldTwo: req.body.optionalFieldTwo
+                    optionalFieldTwo: req.body.optionalFieldTwo,
+                    releaseDate: req.body.releaseDate
                 }
             }
         );

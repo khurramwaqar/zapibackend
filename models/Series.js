@@ -135,7 +135,7 @@ const SeriesSchema = new mongoose.Schema({
     },
     seriesLayout: {
         type: String,
-        enum: ['v1', 'v2'], // Allowed values
+        enum: ['v1', 'v2', 'v3'], // Allowed values
         required: false, // Make it required if necessary
         default: 'v1' // Optional: Set a default value
     },
@@ -153,6 +153,11 @@ const SeriesSchema = new mongoose.Schema({
         type: String,
         required: false,
         trim: true
+    },
+    releaseDate: {
+        type: Date,
+        required: false,
+        default: null
     }
 
 });
