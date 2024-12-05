@@ -35,7 +35,7 @@ const getAllSeries = async (req, res) => {
         //     match: { 'condition': 'Available' },
         //     select: 'condition'
         // });
-        const series = await Series.find();
+        const series = await Series.find().sort({ createdAt: -1 });
         //db.events.find({"details.detail_list.count": {"$gt": 0}})
 
         res.json({ pid: process.pid, series: series, countryCode: data });
