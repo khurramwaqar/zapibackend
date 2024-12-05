@@ -35,26 +35,7 @@ const getAllSeries = async (req, res) => {
         //     match: { 'condition': 'Available' },
         //     select: 'condition'
         // });
-        const series = await Series.aggregate([
-            {
-                $lookup: {
-                    from: 'geopolicies', // Assuming the name of the geoPolicy collection is 'geopolicies'
-                    localField: 'geoPolicy',
-                    foreignField: '_id',
-                    as: 'geoPolicyInfo'
-                }
-            },
-            {
-                $match: {
-                    'geoPolicyInfo.countries': "PK"
-                }
-            },
-            {
-                $sort: {
-                    position: 1
-                }
-            }
-        ]);
+        const series = await Series.find();
         //db.events.find({"details.detail_list.count": {"$gt": 0}})
 
         res.json({ pid: process.pid, series: series, countryCode: data });
