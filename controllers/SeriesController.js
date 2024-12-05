@@ -460,10 +460,13 @@ const updateSeries = async (req, res) => {
 
 const deleteSeries = async (req, res) => {
     try {
-        const removedSeries = await Series.remove({ _id: req.params.seriesId });
-        res.json(removedSeries);
+        const removedSeries = await Series.deleteOne({ _id: req.params.seriesId }); // Use deleteOne instead of remove
+        if (removedSeries.deletedCount === 0) {
+            return res.status(404).json({ message: "Series not found" }); // Handle case where no series was deleted
+        }
+        res.status(200).json({ message: "Series deleted successfully", data: removedSeries });
     } catch (err) {
-        res.json({ message: err });
+        res.status(500).json({ message: "An error occurred", error: err.message });
     }
 };
 
