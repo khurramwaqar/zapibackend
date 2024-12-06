@@ -6,23 +6,45 @@ exports.createRatings = async (req, res) => {
         const { userId, seriesId, rate, comments } = req.body;
 
         // Basic validation
-        if (!seriesId || !userId || !rate || !comments) {
-            return res.status(400).json({ error: 'Missing seriesId, userId, rate, or comments' });
+        if (!seriesId || !userId || !rate) {
+            return res.status(400).json({ error: 'Missing seriesId, userId, or rate.' });
         }
 
         // Validate that rate is within range (if defined in the model as 1-5)
         if (rate < 1 || rate > 5) {
-            return res.status(400).json({ error: 'Rate must be between 1 and 5' });
+            return res.status(400).json({ error: 'Rate must be between 1 and 5.' });
         }
 
-        const ratings = new Ratings({ userId, seriesId, rate, comments });
-        await ratings.save();
+        // Check if a rating already exists for this user and series
+        const existingRating = await Ratings.findOne({ userId, seriesId });
 
-        res.status(201).json({ message: 'Rating added successfully', ratings });
+        if (existingRating) {
+            // Update the existing rating
+            existingRating.rate = rate;
+            existingRating.comments = comments;
+            await existingRating.save();
+
+            return res.status(200).json({ 
+                message: 'Rating updated successfully', 
+                ratings: existingRating,
+                success: true 
+            });
+        }
+
+        // Create a new rating if no existing rating is found
+        const newRating = new Ratings({ userId, seriesId, rate, comments });
+        await newRating.save();
+
+        res.status(201).json({ 
+            message: 'Rating added successfully', 
+            ratings: newRating,
+            success: true
+        });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
+
 
 
 // Get all favorites for a user
@@ -37,19 +59,24 @@ exports.getRatingsByUser = async (req, res) => {
     }
 };
 
-// Get all ratings for a user based on a specific series
+// Get the rating for a user based on a specific series
 exports.getRatingsByUserSeriesBased = async (req, res) => {
     try {
         const { userId, seriesId } = req.params;
 
-        // Find ratings by userId and seriesId without populating series data
-        const ratings = await Ratings.find({ userId, seriesId }).select('userId seriesId rate comments addedAt');
+        // Find a single rating by userId and seriesId
+        const rating = await Ratings.findOne({ userId, seriesId }).select('userId seriesId rate comments addedAt');
 
-        res.status(200).json(ratings);
+        if (!rating) {
+            return res.status(404).json({ error: 'No rating found for this user and series.' });
+        }
+
+        res.status(200).json(rating);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
+
 
 
 // Get a specific favorite by ID
